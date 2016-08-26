@@ -8,8 +8,8 @@ if [[ "$APT" != "" ]]; then
   sudo apt-get update >> /dev/null
   sudo apt-get install -qqy ansible >> /dev/null
 elif [[ "$YUM" != "" ]]; then
-  yum -y install epel-release >> /dev/null
-  yum -y install git wget sshpass ansible >> /dev/null
+  sudo yum -y install epel-release >> /dev/null
+  sudo yum -y install git wget sshpass ansible >> /dev/null
 else
   echo "Distro unsupported."
   exit 1

@@ -24,3 +24,7 @@
 - name: openstack-neutron
   src: https://github.com/openstack-ansible-galaxy/openstack-neutron
   version: master
+
+- name: openstack-horizon
+  src: https://github.com/openstack-ansible-galaxy/openstack-horizon
+  version: master

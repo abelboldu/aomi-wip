@@ -1,0 +1,26 @@
+- name: rabbitmq
+  src: https://github.com/abelboldu/ansible-rabbitmq
+  version: master
+
+- name: mysql
+  src: geerlingguy.mysql
+
+- name: openstack-keystone
+  src: https://github.com/openstack-ansible-galaxy/openstack-keystone
+  version: origin/features/mitaka
+
+- name: openstack-glance
+  src: https://github.com/openstack-ansible-galaxy/openstack-glance
+  version: origin/features/mitaka
+
+- name: openstack-nova-compute
+  src: https://github.com/openstack-ansible-galaxy/openstack-nova-compute
+  version: master
+
+- name: openstack-nova-controller
+  src: https://github.com/openstack-ansible-galaxy/openstack-nova-controller
+  version: master
+
+- name: openstack-neutron
+  src: https://github.com/openstack-ansible-galaxy/openstack-neutron
+  version: master

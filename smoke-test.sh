@@ -1,0 +1,62 @@
+# Show output
+set -x
+# Keystone creds
+export OS_USERNAME=admin
+export OS_PASSWORD='adminpassword'
+export OS_AUTH_URL=http://localhost:5000/v3
+export PS1='[\u@\h \W(keystone_admin)]\$ '
+export OS_TENANT_NAME=admin
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_REGION_NAME=RegionOne
+export OS_IDENTITY_API_VERSION=3
+
+# Install required deps
+APT=`command -v apt-get` || true
+YUM=`command -v yum` || true
+if [[ "$APT" != "" ]]; then
+  apt-get update > /dev/null; sudo apt-get install -qqy git sshpass > /dev/null
+elif [[ "$YUM" != "" ]]; then
+  yum -y epel-release >> /dev/null
+  yum -y install git wget sshpass >> /dev/null
+else
+  echo "Distro unsupported."
+  exit 1
+fi
+
+# Get Cirros
+wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -O /tmp/cirros.img
+# Create small flavor
+openstack flavor create --ram 64 --vcpus 1 --disk 0 nano
+# Create cirros image
+openstack image create --file /tmp/cirros.img --disk-format qcow2 --public --container-format bare cirros
+# Create network
+openstack network create internal1
+# Create subnet
+neutron subnet-create internal1 10.0.0.0/24 --name subnet1
+# Create router
+neutron router-create router1
+# Add router interface
+neutron router-interface-add router1 subnet1
+# Sec rules for SHH and ICMP
+nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+# Grab network1 id
+NET1ID=`openstack network list | grep internal1 | awk '{print $2}'`
+# Create instances
+openstack server create --image  cirros --flavor nano --nic net-id=$NET1ID c1
+openstack server create --image  cirros --flavor nano --nic net-id=$NET1ID c2
+# Grab netns
+ROUTERID=`openstack router list | grep router1 | awk '{print $2}'`
+# Ignore host key check
+cat << 'EOF' >> ~/.ssh/config
+Host 10.0.0.*
+    stricthostkeychecking no
+    UserKnownHostsFile /dev/null
+EOF
+# SSH ping between instances
+ip netns exec qrouter-$ROUTERID exec sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
+# Check metadata
+ip netns exec qrouter-$ROUTERID exec sshpass -p "cubswin:)" ssh -q cirros@200.200.200.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo
+
+

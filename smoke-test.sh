@@ -11,19 +11,6 @@ export OS_PROJECT_DOMAIN_NAME=default
 export OS_REGION_NAME=RegionOne
 export OS_IDENTITY_API_VERSION=3
 
-# Install required deps
-APT=`command -v apt-get` || true
-YUM=`command -v yum` || true
-if [[ "$APT" != "" ]]; then
-  apt-get update > /dev/null; sudo apt-get install -qqy git sshpass > /dev/null
-elif [[ "$YUM" != "" ]]; then
-  yum -y epel-release >> /dev/null
-  yum -y install git wget sshpass >> /dev/null
-else
-  echo "Distro unsupported."
-  exit 1
-fi
-
 # Get Cirros
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -O /tmp/cirros.img
 # Create small flavor

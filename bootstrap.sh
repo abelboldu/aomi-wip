@@ -1,0 +1,19 @@
+# Install required deps
+APT=`command -v apt-get` || true
+YUM=`command -v yum` || true
+if [[ "$APT" != "" ]]; then
+  sudo apt-get update >> /dev/null
+  sudo apt-get install -qqy software-properties-common sshpass >> /dev/null
+  sudo apt-add-repository -qqy ppa:ansible/ansible >> /dev/null
+  sudo apt-get update >> /dev/null
+  sudo apt-get install -qqy ansible >> /dev/null
+elif [[ "$YUM" != "" ]]; then
+  yum -y epel-release >> /dev/null
+  yum -y install git wget sshpass ansible >> /dev/null
+else
+  echo "Distro unsupported."
+  exit 1
+fi
+push tests
+ansible-galaxy install -r requirements.yml
+popd

@@ -8,12 +8,12 @@ if [[ "$APT" != "" ]]; then
   sudo apt-get update >> /dev/null
   sudo apt-get install -qqy ansible >> /dev/null
 elif [[ "$YUM" != "" ]]; then
-  yum -y epel-release >> /dev/null
+  yum -y install epel-release >> /dev/null
   yum -y install git wget sshpass ansible >> /dev/null
 else
   echo "Distro unsupported."
   exit 1
 fi
-push tests
+pushd tests
 ansible-galaxy install -r requirements.yml
 popd

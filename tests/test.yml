@@ -53,3 +53,4 @@
     - openstack-nova-compute
     - openstack-nova-controller
     - openstack-neutron
+    - openstack-horizon

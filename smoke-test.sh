@@ -36,14 +36,12 @@ openstack server create --image  cirros --flavor nano --nic net-id=$NET1ID c2
 # Grab netns
 ROUTERID=`openstack router list | grep router1 | awk '{print $2}'`
 # Ignore host key check
-cat << 'EOF' >> ~/.ssh/config
+cat << 'EOF' | sudo tee -a /root/.ssh/config
 Host 10.0.0.*
     stricthostkeychecking no
     UserKnownHostsFile /dev/null
 EOF
 # SSH ping between instances
-ip netns exec qrouter-$ROUTERID exec sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
+sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
 # Check metadata
-ip netns exec qrouter-$ROUTERID exec sshpass -p "cubswin:)" ssh -q cirros@200.200.200.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo
-
-
+sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh -q cirros@200.200.200.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo

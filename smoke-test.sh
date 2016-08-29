@@ -41,7 +41,9 @@ Host 10.0.0.*
     stricthostkeychecking no
     UserKnownHostsFile /dev/null
 EOF
+echo Wait instances to be up...
+sleep 23
 # SSH ping between instances
 sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
 # Check metadata
-sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh -q cirros@200.200.200.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo
+sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh -q cirros@10.0.0.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo

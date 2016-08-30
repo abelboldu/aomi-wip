@@ -41,8 +41,8 @@ Host 10.0.0.*
     stricthostkeychecking no
     UserKnownHostsFile /dev/null
 EOF
-echo Wait instances to be up...
-sleep 60
+echo Wait instances to be up (2m)...
+sleep 120
 # SSH ping between instances
 sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
 # Check metadata

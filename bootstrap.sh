@@ -4,7 +4,7 @@ YUM=`command -v yum` || true
 if [[ "$APT" != "" ]]; then
   sudo apt-get update >> /dev/null
   sudo apt-get install -qqy software-properties-common sshpass >> /dev/null
-  sudo apt-add-repository -qqy ppa:ansible/ansible >> /dev/null
+  sudo apt-add-repository -y ppa:ansible/ansible >> /dev/null
   sudo apt-get update >> /dev/null
   sudo apt-get install -qqy ansible >> /dev/null
 elif [[ "$YUM" != "" ]]; then

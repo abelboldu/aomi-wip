@@ -1,5 +1,5 @@
 - name: rabbitmq
-  src: https://github.com/abelboldu/ansible-rabbitmq
+  src: https://github.com/openstack-ansible-galaxy/rabbitmq/
   version: master
 
 - name: mysql

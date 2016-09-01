@@ -21,8 +21,12 @@
   src: https://github.com/openstack-ansible-galaxy/openstack-nova-controller
   version: master
 
-- name: openstack-neutron
-  src: https://github.com/openstack-ansible-galaxy/openstack-neutron
+- name: openstack-neutron-controller
+  src: https://github.com/openstack-ansible-galaxy/openstack-neutron-compute
+  version: master
+
+- name: openstack-neutron-compute
+  src: https://github.com/openstack-ansible-galaxy/openstack-neutron-compute
   version: master
 
 - name: openstack-horizon

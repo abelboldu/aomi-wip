@@ -28,6 +28,9 @@
         - centos-release-openstack-mitaka
         - policycoreutils-python
 
+- hosts: controller
+  remote_user: root
+  become: True
   roles:
     - role: mysql
       mysql_daemon: 'mysql'
@@ -47,10 +50,16 @@
       when: ansible_os_family == 'RedHat'
 
     - rabbitmq
-    - role: openstack-keystone
-      keystone_run_sanity_check: yes 
+    - openstack-keystone
     - openstack-glance
-    - openstack-nova-compute
     - openstack-nova-controller
-    - openstack-neutron
+    - openstack-neutron-controller
     - openstack-horizon
+
+- hosts: compute
+  remote_user: root
+  become: True
+  roles:
+    - openstack-nova-compute
+    - openstack-neutron-compute
+  tags: compute

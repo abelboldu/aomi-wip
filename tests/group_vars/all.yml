@@ -1,5 +1,7 @@
 # Public IP default
-public_ip: '{{ ansible_default_ipv4.address }}'
+controller_public_ip: '{{ ansible_default_ipv4.address }}'
+controller_internal_ip: '{{  hostvars[groups.controller[0]].ansible_default_ipv4.address }}'
+
 
 # RabbitMQ
 rabbitmq_tcp_address: '0.0.0.0'
@@ -52,9 +54,10 @@ mysql_users:
     host: '%'
 
 # Keystone
-openstack_keystone_admin_bind_host: 'localhost'
-openstack_keystone_bind_host: 'localhost'
-openstack_keystone_database_url: 'mysql+pymysql://keystone:keystonepassword@localhost/keystone'
+openstack_keystone_admin_bind_host: '{{ controller_internal_ip }}'
+openstack_keystone_bind_host: '{{ controller_internal_ip }}'
+openstack_keystone_hostname: '{{ controller_internal_ip }}'
+openstack_keystone_database_url: 'mysql+pymysql://keystone:keystonepassword@{{ controller_internal_ip }}/keystone'
 openstack_keystone_tenants:
   - { name: admin, description: 'Admin tenant' }
   - { name: service, description: 'Service tenant' }
@@ -78,34 +81,35 @@ openstack_keystone_services:
   - { name: nova, service_type: compute }
 openstack_keystone_endpoints:
   - service_name: keystone
-    public_url: 'http://localhost:5000/v3'
-    internal_url: 'http://localhost:5000/v3'
-    admin_url: 'http://localhost:35357/v3'
+    public_url: 'http://{{ controller_public_ip }}:5000/v3'
+    internal_url: 'http://{{ controller_internal_ip }}:5000/v3'
+    admin_url: 'http://{{ controller_internal_ip }}:35357/v3'
   - service_name: glance
-    public_url: 'http://localhost:9292/'
-    internal_url: 'http://localhost:9292/'
-    admin_url: 'http://localhost:9292/'
+    public_url: 'http://{{ controller_public_ip }}:9292/'
+    internal_url: 'http://{{ controller_internal_ip }}:9292/'
+    admin_url: 'http://{{ controller_internal_ip }}:9292/'
   - service_name: nova
-    public_url: 'http://localhost:8774/v2.1/%(tenant_id)s'
-    internal_url: 'http://localhost:8774/v2.1/%(tenant_id)s'
-    admin_url: 'http://localhost:8774/v2.1/%(tenant_id)s'
+    public_url: 'http://{{ controller_public_ip }}:8774/v2.1/%(tenant_id)s'
+    internal_url: 'http://{{ controller_internal_ip }}:8774/v2.1/%(tenant_id)s'
+    admin_url: 'http://{{ controller_internal_ip }}:8774/v2.1/%(tenant_id)s'
   - service_name: 'neutron'
-    public_url: 'http://localhost:9696/'
-    internal_url: 'http://localhost:9696/'
-    admin_url: 'http://localhost:9696/'
+    public_url: 'http://{{ controller_public_ip }}:9696/'
+    internal_url: 'http://{{ controller_internal_ip }}:9696/'
+    admin_url: 'http://{{ controller_internal_ip }}:9696/'
 
 # Glance
 openstack_glance_pass: 'glancepassword'
 openstack_glance_demo_pass: 'demopassword'
+openstack_glance_keystone_hostname: '{{ controller_internal_ip }}'
 
 # Nova controller
 openstack_nova_controller_nova_my_ip: '{{ ansible_default_ipv4.address }}'
-openstack_nova_controller_nova_database_url: 'mysql+pymysql://nova:novapassword@localhost/nova'
-openstack_nova_controller_nova_api_database_url: 'mysql+pymysql://nova:novapassword@localhost/nova_api'
-openstack_nova_controller_novncproxy_base_url_ip: '{{ public_ip }}'
-openstack_nova_controller_keystone_hostname: 'localhost'
+openstack_nova_controller_nova_database_url: 'mysql+pymysql://nova:novapassword@{{ controller_internal_ip }}/nova'
+openstack_nova_controller_nova_api_database_url: 'mysql+pymysql://nova:novapassword@{{ controller_internal_ip }}/nova_api'
+openstack_nova_controller_novncproxy_base_url_ip: '{{ controller_public_ip }}'
+openstack_nova_controller_keystone_hostname: '{{ controller_internal_ip }}'
 openstack_nova_controller_keystone_admin_password: 'adminpassword'
-openstack_nova_controller_glance_hostname: 'localhost'
+openstack_nova_controller_glance_hostname: '{{ controller_internal_ip }}'
 openstack_nova_controller_glance_protocol: 'http'
 openstack_nova_controller_nova_password: 'novapassword'
 openstack_nova_controller_demo_user: 'demo'
@@ -116,22 +120,32 @@ openstack_nova_controller_virt_type: 'qemu'
 # Nova compute
 openstack_nova_compute_nova_my_ip: '{{ ansible_default_ipv4.address }}'
 openstack_nova_compute_vncserver_proxyclient_address: '{{ ansible_default_ipv4.address }}'
-openstack_nova_compute_novncproxy_base_url_ip: '{{ public_ip }}'
+openstack_nova_compute_novncproxy_base_url_ip: '{{ controller_public_ip }}'
 openstack_nova_compute_nova_virt_type: 'qemu'
-openstack_nova_compute_keystone_hostname: 'localhost'
+openstack_nova_compute_rabbit_hostname: '{{ controller_internal_ip }}'
+openstack_nova_compute_keystone_hostname: '{{ controller_internal_ip }}'
 openstack_nova_compute_keystone_admin_password: 'adminpassword'
+openstack_nova_compute_glance_hostname: '{{ controller_internal_ip }}'
 openstack_nova_compute_neutron_password: 'neutronpassword'
+openstack_nova_compute_neutron_hostname: '{{ controller_internal_ip }}'
 
 # Neutron controller
-openstack_neutron_controller_neutron_database_url: 'mysql+pymysql://neutron:neutronpassword@localhost/neutron'
+openstack_neutron_controller_neutron_database_url: 'mysql+pymysql://neutron:neutronpassword@{{ controller_internal_ip }}/neutron'
 openstack_neutron_controller_neutron_password: 'neutronpassword'
-openstack_neutron_controller_rabbit_hostname: 'localhost'
+openstack_neutron_controller_rabbit_hostname: '{{ controller_internal_ip }}'
 openstack_neutron_controller_rabbit_username: 'guest'
 openstack_neutron_controller_rabbit_password: 'guest'
+openstack_neutron_controller_neutron_nova_metadata_ip: '{{ controller_internal_ip }}'
+openstack_neutron_controller_keystone_hostname: '{{ controller_internal_ip }}'
 openstack_neutron_controller_nova_password: 'novapassword'
 openstack_neutron_controller_demo_user: 'demo'
 openstack_neutron_controller_demo_pass: 'demopassword'
 openstack_neutron_controller_demo_project: 'demo'
 
+# Neutron compute
+openstack_neutron_compute_rabbit_hostname: '{{ controller_internal_ip }}'
+openstack_neutron_compute_keystone_hostname: '{{ controller_internal_ip }}'
+
+
 # Horizon
-openstack_horizon_keystone_hostname: 'localhost'
+openstack_horizon_keystone_hostname: '{{ controller_internal_ip }}'

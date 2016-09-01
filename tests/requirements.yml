@@ -7,11 +7,11 @@
 
 - name: openstack-keystone
   src: https://github.com/openstack-ansible-galaxy/openstack-keystone
-  version: origin/features/mitaka
+  version: master
 
 - name: openstack-glance
   src: https://github.com/openstack-ansible-galaxy/openstack-glance
-  version: origin/features/mitaka
+  version: master
 
 - name: openstack-nova-compute
   src: https://github.com/openstack-ansible-galaxy/openstack-nova-compute

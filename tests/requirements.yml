@@ -2,6 +2,15 @@
   src: https://github.com/openstack-ansible-galaxy/rabbitmq/
   version: master
 
+- name: midonet-repos
+  src: abelboldu.midonet-repos
+
+- name: zookeeper
+  src: abelboldu.zookeeper
+
+- name: cassandra
+  src: abelboldu.cassandra
+
 - name: mysql
   src: geerlingguy.mysql
 
@@ -21,10 +30,16 @@
   src: https://github.com/openstack-ansible-galaxy/openstack-nova-controller
   version: master
 
-- name: openstack-neutron
-  src: https://github.com/openstack-ansible-galaxy/openstack-neutron
+- name: openstack-neutron-controller
+  src: https://github.com/openstack-ansible-galaxy/openstack-neutron-controller
   version: master
 
 - name: openstack-horizon
   src: https://github.com/openstack-ansible-galaxy/openstack-horizon
   version: master
+
+- name: midonet-cluster
+  src: abelboldu.midonet-cluster
+
+- name: midonet-agent
+  src: abelboldu.midonet-agent

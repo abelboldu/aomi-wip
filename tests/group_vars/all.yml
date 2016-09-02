@@ -127,6 +127,7 @@ openstack_nova_compute_neutron_password: 'neutronpassword'
 
 # Neutron controller
 openstack_neutron_controller_neutron_database_url: 'mysql+pymysql://neutron:neutronpassword@localhost/neutron'
+openstack_neutron_controller_neutron_plugin: 'midonet'
 openstack_neutron_controller_neutron_password: 'neutronpassword'
 openstack_neutron_controller_rabbit_hostname: 'localhost'
 openstack_neutron_controller_rabbit_username: 'guest'
@@ -135,6 +136,8 @@ openstack_neutron_controller_nova_password: 'novapassword'
 openstack_neutron_controller_demo_user: 'demo'
 openstack_neutron_controller_demo_pass: 'demopassword'
 openstack_neutron_controller_demo_project: 'demo'
+
+
 
 # Horizon
 openstack_horizon_keystone_hostname: 'localhost'

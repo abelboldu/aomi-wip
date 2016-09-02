@@ -47,10 +47,22 @@
       when: ansible_os_family == 'RedHat'
 
     - rabbitmq
-    - role: openstack-keystone
-      keystone_run_sanity_check: yes 
+    - role: midonet-repos
+      openstack_version: 'mitaka'
+    - role: zookeeper
+      zookeeper_hosts: 'localhost'
+    - role: cassandra
+      cassandra_hosts: 'localhost'
+    - openstack-keystone
     - openstack-glance
     - openstack-nova-compute
     - openstack-nova-controller
-    - openstack-neutron
+    - openstack-neutron-controller
     - openstack-horizon
+    - role: midonet-cluster
+      zookeeper_hosts: 'localhost'
+      cassandra_hosts: 'localhost'
+      midonet_password: 'midonet'
+    - role: midonet-agent
+      zookeeper_hosts: 'localhost'
+      midonet_password: 'midonet'

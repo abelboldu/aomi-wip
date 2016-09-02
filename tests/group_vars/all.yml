@@ -136,7 +136,7 @@ openstack_neutron_controller_nova_password: 'novapassword'
 openstack_neutron_controller_demo_user: 'demo'
 openstack_neutron_controller_demo_pass: 'demopassword'
 openstack_neutron_controller_demo_project: 'demo'
-
+openstack_neutron_controller_midonet_api_password: 'midonet'
 
 
 # Horizon

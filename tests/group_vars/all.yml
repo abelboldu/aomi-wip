@@ -138,6 +138,12 @@ openstack_neutron_controller_demo_pass: 'demopassword'
 openstack_neutron_controller_demo_project: 'demo'
 openstack_neutron_controller_midonet_api_password: 'midonet'
 
-
 # Horizon
 openstack_horizon_keystone_hostname: 'localhost'
+
+# Midonet cluster
+midonet_cluster_enable_metadata: True
+midonet_cluster_metadata_host: '{{ ansible_default_ipv4.address }}'
+midonet_cluster_metadata_secret: 'somefnordity'
+midonet_cluster_keystone_password: 'adminpassword'
+midonet_cluster_max_heap_size: '2048M'

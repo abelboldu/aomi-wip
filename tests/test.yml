@@ -62,8 +62,5 @@
     - role: midonet-cluster
       zookeeper_hosts: '{{ groups["zookeeper"] }}'
       cassandra_hosts: '{{ groups["cassandra"] }}'
-      midonet_password: 'midonet'
-      metadata_secret: 'somefnordity'
     - role: midonet-agent
       zookeeper_hosts: '{{ groups["zookeeper"] }}'
-      midonet_password: 'midonet'

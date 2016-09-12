@@ -146,4 +146,9 @@ midonet_cluster_enable_metadata: True
 midonet_cluster_metadata_host: '{{ ansible_default_ipv4.address }}'
 midonet_cluster_metadata_secret: 'somefnordity'
 midonet_cluster_keystone_password: 'adminpassword'
-midonet_cluster_max_heap_size: '2048M'
+midonet_cluster_max_heap_size: '1048M'
+
+# Midonet agent
+midonet_agent_tzone_name: 'tzone'
+midonet_agent_max_heap_size: '1048M'
+midonet_agent_cluster_password: 'adminpassword'

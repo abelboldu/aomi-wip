@@ -127,6 +127,7 @@ openstack_nova_compute_nova_virt_type: 'qemu'
 openstack_nova_compute_keystone_hostname: 'localhost'
 openstack_nova_compute_keystone_admin_password: 'adminpassword'
 openstack_nova_compute_neutron_password: 'neutronpassword'
+openstack_nova_compute_add_tun_acl: True
 
 # Neutron controller
 openstack_neutron_controller_neutron_database_url: 'mysql+pymysql://neutron:neutronpassword@localhost/neutron'

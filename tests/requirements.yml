@@ -14,6 +14,9 @@
 - name: mysql
   src: geerlingguy.mysql
 
+- name: java
+  src: geerlingguy.java
+
 - name: openstack-keystone
   src: https://github.com/openstack-ansible-galaxy/openstack-keystone
   version: master

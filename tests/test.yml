@@ -46,6 +46,11 @@
       mysql_pid_file: '/var/run/mariadb/mariadb.pid'
       when: ansible_os_family == 'RedHat'
 
+    - role: java
+      when: ansible_os_family == 'Debian'
+      java_packages:
+        - openjdk-8-jdk
+
     - rabbitmq
     - role: midonet-repos
       openstack_version: 'mitaka'

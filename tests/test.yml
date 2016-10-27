@@ -69,3 +69,5 @@
       cassandra_hosts: '{{ groups["cassandra"] }}'
     - role: midonet-agent
       zookeeper_hosts: '{{ groups["zookeeper"] }}'
+    - role: midonet-gateway
+      zookeeper_hosts: '{{ groups["zookeeper"] }}'

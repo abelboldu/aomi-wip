@@ -14,6 +14,7 @@ def start(config, box, name, ip, netmask = "255.255.255.0")
     node.vm.box = box
     node.vm.hostname = name
     node.vm.network :private_network, :ip => ip, :netmask => netmask
+    node.vm.network "forwarded_port", guest: 80, host: 8080
   end
 
   config.vm.provision :shell,

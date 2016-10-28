@@ -29,7 +29,7 @@ neutron router-interface-add router1 subnet1
 nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
 nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
 # Grab network1 id
-NET1ID=`openstack network list | grep internal1 | awk '{print $2}'`
+NET1ID=`openstack network list | grep external | awk '{print $2}'`
 # Create instances
 openstack server create --image  cirros --flavor nano --nic net-id=$NET1ID c1
 openstack server create --image  cirros --flavor nano --nic net-id=$NET1ID c2
@@ -44,6 +44,6 @@ EOF
 echo "Wait instances to be up (2m)..."
 sleep 120
 # SSH ping between instances
-sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
+# sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh cirros@10.0.0.3 ping -c2 10.0.0.4
 # Check metadata
-sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh -q cirros@10.0.0.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo
+# sudo ip netns exec qrouter-$ROUTERID sshpass -p "cubswin:)" ssh -q cirros@10.0.0.3 curl -s http://169.254.169.254/latest/meta-data/hostname; echo

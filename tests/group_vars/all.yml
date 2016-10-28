@@ -77,7 +77,7 @@ openstack_keystone_services:
   - { name: keystone, service_type: identity }
   - { name: glance, service_type: image }
   - { name: neutron, service_type: network }
-  - { name: midonet, service_type: network }
+  - { name: midonet, service_type: midonet }
   - { name: nova, service_type: compute }
 openstack_keystone_endpoints:
   - service_name: keystone

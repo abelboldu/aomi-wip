@@ -5,6 +5,11 @@
   become: True
   pre_tasks:
 
+
+    - name: Install repo for Java 8 in Ubuntu 14.04
+      apt_repository: repo='ppa:openjdk-r/ppa'
+      when: "ansible_distribution_release == 'trusty'"
+
     - name: Install Ubuntu Cloud archive keyring (Debian)
       when: ansible_os_family == 'Debian'
       apt:
@@ -60,8 +65,8 @@
       cassandra_hosts: '{{ groups["cassandra"] }}'
     - openstack-keystone
     - openstack-glance
-    - openstack-nova-compute
     - openstack-nova-controller
+    - openstack-nova-compute
     - openstack-neutron-controller
     - openstack-horizon
     - role: midonet-cluster
@@ -70,4 +75,4 @@
     - role: midonet-agent
       zookeeper_hosts: '{{ groups["zookeeper"] }}'
     - role: midonet-gateway
-      zookeeper_hosts: '{{ groups["zookeeper"] }}'
+      midonet_gateway_external_nic: 'veth1'
